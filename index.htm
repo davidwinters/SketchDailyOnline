@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>The War Room</title>
+    <title>Sketch Ere Day</title>
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -13,7 +13,11 @@
 
     <!-- Le styles -->
     <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/spectrum.css" rel="stylesheet">
     <link href="css/styles.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+
     <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.17/themes/blitzer/jquery-ui.css">
 
     <style>
@@ -41,7 +45,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="#">The War Room</a>
+          <a class="brand" href="#">Sketch Ere Day</a>
           <div class="nav-collapse">
             <!-- <ul class="nav">
               <li class="active"><a href="#">Home</a></li>
@@ -49,52 +53,41 @@
               <li><a href="#contact">Contact</a></li>
             </ul>-->
             <div class="btn-toolbar">
+              
                 <div class="btn-group pull-right">
-                <a id="deleteall" class="btn btn-danger"> <i class="icon-trash icon-white"></i>Remove All Tanks</a>
-                 <a id="deletedrawings" class="btn btn-danger"> <i class="icon-trash icon-white"></i>Clear Drawings</a>
-                </div>
-                <div id="map" class="btn-group">
-                  <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-                  Select Map
-                    <span class="caret"></span>
-                  </a>
-                  <ul class="dropdown-menu">
-                  <!-- dropdown menu links -->
-                  <li><a title="map-abbey-1.jpg">Abbey</a></li>
-                  <li><a title="map-arctic-region-1.jpg">Arctic Region</a></li>
-                  <li><a title="map-cliff-1.jpg">Cliff</a></li>
-                  <li><a title="map-el-halluf-1.jpg">El Halluf</a></li>
-                  <li><a title="map-ensk-1.jpg">Ensk</a></li>
-                  <li><a title="map-erlenberg-1.jpg">Erlenberg</a></li>
-                  <li><a title="map-fishermans-bay-1.jpg">Fisherman's Bay</a></li>
-                  <li><a title="map-fjords-1.jpg">Fjords</a></li>
-                  <li><a title="map-himmelsdorf-1.jpg">Himmelsdof</a></li>
-                  <li><a title="map-karelia-1.jpg">Karelia</a></li>
-                  <li><a title="map-komarin-1.jpg">Komarin</a></li>
-                  <li><a title="map-lakeville-1.jpg">Lakeville</a></li>
-                  <li><a title="map-malinovka-1.jpg">Malinovka</a></li>
-                  <li><a title="map-mines-1.jpg">Mines</a></li>
-                  <li><a title="map-mountain-pass-1.jpg">Mountain Pass</a></li>
-                  <li><a title="map-murovanka-1.jpg">Murovanka</a></li>
-                  <li><a title="map-prokhorovka-1.jpg">Prokhorovka</a></li>
-                  <li><a title="map-redshire-1.jpg">Redshire</a></li>
-                  <li><a title="map-ruinberg-1.jpg">Ruinberg</a></li>
-                  <li><a title="map-sand-river-1.jpg">Sand River</a></li>
-                  <li><a title="map-siegfried-line-1.jpg">Siegfried Line</a></li>
-                  <li><a title="map-steppes-1.jpg">Steppes</a></li>
-                  <li><a title="map-westfield-1.jpg">Westfield</a></li>
-                  </ul>
-                </div>
-                <div id="save-new" class="btn-group">
-                <button class="btn">
-                  <i class="icon-camera"></i> Save
-                </button>
-                </div>
-                <div id="save" class="btn-group">
-                <button class="btn">
+                 <button id="save" class="btn">
                   <i class="icon-camera"></i> Export PNG
                 </button>
+                 <a id="deletedrawings" class="btn btn-danger"> <i class="icon-trash icon-white"></i>Clear Drawing</a>
                 </div>
+                
+                <div id="save-new" class="btn-group">
+                  <input type='text' id="customcolor" />
+                  
+                    
+                      <a id="slider-button" class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                        Size
+                        <span class="caret"></span>
+                      </a>
+                    <div id="sizewrapper" class="dropdown-menu">  
+                      <div id="slider-vertical"  ></div>
+                      <input class="brushsize" type="hidden" />
+                    </div>
+                  
+                  <button class="btn" id="size"><i class="icon-eye-open"></i></button>
+                  <button class="btn eraser" data-toggle="button">
+                  <i class="icon-eraser"></i>
+                </button>
+                  <button class="btn">
+                    <i class="icon-comments"></i>
+                  </button>
+                  <div id="pressure">Pressure:<span id="pvalue"></span></div>
+
+
+                </div>
+                <div id="save" class="btn-group">
+               
+                </div> 
 
                
 
@@ -109,77 +102,30 @@
     <div class="container">
     <div class="row">
       
-      <div id="menu" class="span3">
-            
-            <div class="tabbable well">
-            <h3>Tank Depot</h3><em>drag available tanks onto map</em>
-              <ul class="nav nav-tabs">
-                <li class="active" ><a href="#1" data-toggle="tab" id="us">USA</a></li>
-                <li><a href="#2" data-toggle="tab" id="ru">RUS</a></li>
-                <li><a href="#3" data-toggle="tab" id="ge">GER</a></li>
-                <li><a href="#4" data-toggle="tab" id="fr">FRA</a></li>
-              </ul>
-              <div class="tab-content">
-                <div class="tab-pane active" id="1">
-                  <p>
-                                <div class="parent"><a class="close" data-dismiss="alert">&times;</a><div class="t30"></div>T30</div>
-                                <div class="parent"><a class="close" data-dismiss="alert">&times;</a><div class="t92"></div>T92</div>
-                                <div class="parent"><a class="close" data-dismiss="alert">&times;</a><div class="patton"></div>Patton</div>
-                                <div class="parent"><a class="close" data-dismiss="alert">&times;</a><div class="t95"></div>T95</div>
-                  </p>
-                </div>
-                <div class="tab-pane" id="2">
-                  
-                                <div class="parent"><a class="close" data-dismiss="alert">&times;</a><div class="is7"></div>IS-7</div>
-                                <div class="parent"><a class="close" data-dismiss="alert">&times;</a><div class="object261"></div>261</div>
-                                <div class="parent"><a class="close" data-dismiss="alert">&times;</a><div class="t54"></div>T-54</div>
-                                <div class="parent"><a class="close" data-dismiss="alert">&times;</a><div class="object704"></div>704</div>
-                  
-                </div>
-              <div class="tab-pane" id="3">
-                  
-                                <div class="parent"><a class="close" data-dismiss="alert">&times;</a><div class="maus"></div>Maus</div>
-                                <div class="parent"><a class="close" data-dismiss="alert">&times;</a><div class="e100"></div>E100</div>
-                                <div class="parent"><a class="close" data-dismiss="alert">&times;</a><div class="gwtigere"></div>GWTigerE</div>
-                                <div class="parent"><a class="close" data-dismiss="alert">&times;</a><div class="e50"></div>E50</div>
-                                <div class="parent"><a class="close" data-dismiss="alert">&times;</a><div class="jtiger"></div>JTiger</div>
-                  
-                </div>
-              <div class="tab-pane" id="4">
-                  
-                                <div class="parent"><a class="close" data-dismiss="alert">&times;</a><div class="amx50b"></div>AMX50B</div>
-                                <div class="parent"><a class="close" data-dismiss="alert">&times;</a><div class="batchat"></div>Bat Chatillon</div>
-                                
-                  
-                </div>
-                    </div>
-            
-            </div>
-            <div id="depot" class="well">
-            <h3>Paint Tools</h3>
-                    <div class="colorwheel"></div>
-                 
-                    <input name="input_example" class="span1 input_example" type="text" />
-                    <h4>Brush Size</h4>
-                    <div id="slider-vertical"></div>
-            
-                   <input name="brush_size" class="span1 brushsize" type="text" />
-                  <br/>
-                   <button class="btn eraser" data-toggle="button">
-                  <i class="icon-remove"></i>Eraser
-                </button>
-
-            </div>
-       </div>  
-
-
-
-      <div id="wrapper" class="span9">
-
-        <canvas id="can" width="850" height="850"></canvas>
+      <div id="wrapper" class="span12">
+        
+        <canvas class="can" width="1170" height="850"></canvas>
       
-        <canvas id="canvasbuffer" width="850" height="850"></canvas>
+        <canvas id="canvasbuffer" width="1170" height="850"></canvas>
       </div>
+      <div class="row">
+        <div id="menu" class="span3">
+            
+            
+            <div id="depot" class="well hidden">
+            <h3>Users</h3>
+             <ul id="userlist">       
+             </ul>
+            </div>
+
+            <div id="depot" class="well">
+             <div id='messagesDiv'></div>
+              <input type='text' id='messageInput' placeholder='Message...'>
+            </div>
+
+
+       </div>  
+     </div>
 
 </div>
     </div> <!-- /container -->
@@ -187,14 +133,30 @@
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://cdn.firebase.com/v0/firebase.js"></script>
+    <script src="https://www.firebase.com/js/libs/idle.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+    <script src="js/spectrum.js"></script>
     <script src="js/bootstrap.min.js"></script>
-    <script src="js/raphael-1.3.1-min.js"></script>
-    <script src="js/colorwheel.js"></script>
     <script src="js/db.js"></script>
     <script src="js/site.js"></script>
+    <script src="js/backend.js"></script>
 
+
+    <!--[if IE]>
+
+    <object id='wtPlugin' classid='CLSID:092dfa86-5807-5a94-bf3b-5a53ba9e5308'>
+    </object>
+
+    <![endif]--><!--[if !IE]> <-->
+
+    <object id="wtPlugin" type="application/x-wacomtabletplugin">
+          <param name="onload" value="pluginLoaded" />
+
+    </object>
+
+    <!--> <![endif]-->
 
 
   </body>
