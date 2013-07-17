@@ -28,7 +28,12 @@
 
 }
 #menu{
- background-color:#fff;  
+
+ z-index: 100;
+ position: absolute;
+right: 0px;
+top: 100px;
+
 }
 
 .colorwheel{
@@ -45,7 +50,7 @@
     height: 290px;
 overflow-y: scroll;
 }
-.hidden{
+.no{
     display:none;
 }
 #slider-vertical{
@@ -53,9 +58,14 @@ overflow-y: scroll;
 }
 
 #sizewrapper{
-    position: absolute;
-    left: 54px;
-    min-width: 15px!important;
-    top: 29px;
-    width: 60px;
+position: absolute;
+left: 51px;
+min-width: 15px!important;
+width: 62px;
+top: 28px;
+
+}
+.brushsize{
+    width: 30px;
+    margin-left: 7px;
 }

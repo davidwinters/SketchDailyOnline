@@ -71,14 +71,14 @@
                       </a>
                     <div id="sizewrapper" class="dropdown-menu">  
                       <div id="slider-vertical"  ></div>
-                      <input class="brushsize" type="hidden" />
+                      <input class="brushsize" type="text" />
                     </div>
                   
-                  <button class="btn" id="size"><i class="icon-eye-open"></i></button>
+                  <button class="btn" id="eyedrop" data-toggle="button"><i class="icon-eye-open"></i></button>
                   <button class="btn eraser" data-toggle="button">
                   <i class="icon-eraser"></i>
                 </button>
-                  <button class="btn">
+                  <button class="btn" id="chat" data-toggle="button">
                     <i class="icon-comments"></i>
                   </button>
                   <div id="pressure">Pressure:<span id="pvalue"></span></div>
@@ -109,10 +109,10 @@
         <canvas id="canvasbuffer" width="1170" height="850"></canvas>
       </div>
       <div class="row">
-        <div id="menu" class="span3">
+        <div id="menu" class="span3 no">
             
             
-            <div id="depot" class="well hidden">
+            <div id="depot" class="well">
             <h3>Users</h3>
              <ul id="userlist">       
              </ul>

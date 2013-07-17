@@ -5,15 +5,9 @@ function getWacomPlugin(){
   }
 
 $(document).ready(function() {
-  var isWacom = false;
-  try{
-    isWacom      = getWacomPlugin().penAPI.isWacom;
+    var isWacom      = getWacomPlugin().penAPI.isWacom;
     var pressure     = getWacomPlugin().penAPI.pressure;
     var pentype      = getWacomPlugin().penAPI.pointerType;
-  }
-  catch(err){
-    console.log(err);
-  }
     var canoffset    = $('.can:first-child').offset();
     var draw         = false;
     var lastPoint    = null;
@@ -28,6 +22,17 @@ $(document).ready(function() {
     var drawdata      = [];
     
     $('button').button();
+    $('#menu').draggable();
+    /*$('.brushsize').change(function() {
+      $('#slider-vertical').slider("value", this.val());
+    })*/
+
+
+     $('#chat').click(function() {
+           //check if eraser button is toggled
+      $('#menu').toggle();
+       
+    })
    
 
     if (isWacom){
@@ -188,7 +193,23 @@ $(document).ready(function() {
 
 
 
+            function findPos(obj) {
+            var curleft = 0, curtop = 0;
+            if (obj.offsetParent) {
+                do {
+                    curleft += obj.offsetLeft;
+                    curtop += obj.offsetTop;
+                } while (obj = obj.offsetParent);
+                return { x: curleft, y: curtop };
+                }
+                return undefined;
+            }
 
+            function rgbToHex(r, g, b) {
+                if (r > 255 || g > 255 || b > 255)
+                    throw "Invalid color component";
+                return ((r << 16) | (g << 8) | b).toString(16);
+            }
 
 
 
@@ -209,6 +230,8 @@ $(document).ready(function() {
               }
           
          });
+
+        
 
       //delete drawings
         $("#deletedrawings").click(function(){
@@ -236,8 +259,9 @@ $(document).ready(function() {
                 orientation: "vertical",
                 range: "min",
                 min: 0,
-                max: 20,
+                max: 100,
                 value: 5,
+                step: 1,
                   slide: function( event, ui ) {
                     $( ".brushsize" ).val( ui.value );
                   }
@@ -250,7 +274,16 @@ $(document).ready(function() {
       //save canvas
 
         //function helps convert CSS properties to Canvas properties
-        
+        function removepx(mystring){
+          var newstring = new String(mystring);
+          var pxstart = newstring.search('p');
+            if (newstring.search('-') > -1){
+              var start = 1;
+            }else { var start = 0;}
+
+          var cleanstring = newstring.slice(start, pxstart);
+          return cleanstring;
+        }
 
         $('#save').click(function() {
             var can2 = document.getElementById('canvasbuffer');
@@ -275,7 +308,40 @@ $(document).ready(function() {
               ctx2.drawImage(img_bg, 0, 0, 850, 850);
 
               //goes through each of the pawns on the map and draws them on the buffer canvas
-              
+              $('.pawn div').each(function(index) {
+                  var offset2 = $(this).offset();
+                  var canvasoffset = $("#can").offset();
+
+                  posx =  offset2.left - canvasoffset.left;
+                  posy = offset2.top -canvasoffset.top;
+
+                  var imgstring = new String($(this).css('background-image'));
+                  
+                    var imgh = removepx($(this).css('height'));
+                    var imgw = removepx($(this).css('width'));
+
+                    var crop = new String($(this).css('background-position'));
+                    var crop_split;
+                    
+                    crop_split = crop.split(' ');
+                     
+                    var cropx = removepx(crop_split[0]);
+                    var cropy = removepx(crop_split[1]);
+
+                    var split_str, new_str;
+                    split_str = imgstring.split('"');
+                  
+
+                    var img_loc = new Image();
+                    img_loc.src = split_str[1]
+ 
+                  ctx2.drawImage(img_loc, cropx, cropy, imgw, imgh, posx, posy, imgw, imgh);
+                  var texty = parseInt(posy) + parseInt(imgh) + 10; 
+                  var content = $(this).parent().text();
+                  ctx2.fillText(content,posx,texty);
+                  
+
+                });
               
 
             // imgur stuff
